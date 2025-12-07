@@ -107,7 +107,7 @@ export default function App() {
 
         {/* 2. --- BackgroundCircles Component (NEW POSITION) --- */}
         {/* Placed after other background elements and before content (z-index is implicitly handled if it uses absolute positioning) */}
-        {/* <BackgroundCircles /> */}
+        <BackgroundCircles />
 
 
         {/* 3. --- Content Area (z-index higher than backgrounds) --- */}
