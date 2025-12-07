@@ -50,8 +50,8 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-black/90 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-32 backdrop-blur-sm">
       
       {/* Logo (Visible on all screen sizes) */}
-      <a href="#" className="text-white flex items-center transition duration-500 text-2xl font-semibold">
-        Dev <span className="text-[#06B6D4]">Cluster</span>
+      <a href="#" className="text-3xl md:text-5xl lg:text-2xl text-center font-bold  bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">
+        Dev <span className="text-3xl md:text-5xl lg:text-2xl text-center font-bold  bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">Cluster</span>
       </a>
       
       {/* Desktop Navigation Links */}

@@ -62,8 +62,8 @@ const Footer = () => {
           {/* Column 1: Brand Info */}
           <div className="flex flex-col space-y-4">
             <h2 className="text-3xl font-extrabold tracking-tight">
-              <span className="text-white">DEV </span>
-              <span className="text-blue-500">CLUSTER</span>
+              <span className="text-3xl md:text-5xl lg:text-2xl text-center font-bold  bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">DEV </span>
+              <span className="text-3xl md:text-5xl lg:text-2xl text-center font-bold  bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">CLUSTER</span>
             </h2>
             <p className="text-sm text-gray-400">Building the Future, Together.</p>
             

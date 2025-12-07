@@ -23,12 +23,12 @@ export default function WhyChooseUs() {
   return (
     <section className="relative bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-6 text-center overflow-hidden">
       {/* Background glow effects */}
-      <div className="absolute -top-32 -left-32 w-80 h-80 bg-cyan-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+      <div className="absolute -top-32 -left-32 w-80 h-80 bg-blue-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
       <div className="absolute -top-32 -right-32 w-80 h-80 bg-pink-300 rounded-full blur-3xl opacity-20 animate-pulse"></div>
 
       {/* Heading */}
-      <h2 className="text-4xl md:text-5xl lg:text-5xl  font-bold mb-4 relative z-10 mt-14">
-        Why <span className="text-cyan-400">Choose Us?</span>
+      <h2 className="text-4xl md:text-5xl lg:text-5xl text-center font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">
+        Why <span className="text-4xl md:text-5xl lg:text-5xl text-center font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">Choose Us?</span>
       </h2>
 
       {/* Subheading */}
