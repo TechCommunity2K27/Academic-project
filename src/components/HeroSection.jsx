@@ -135,14 +135,14 @@ export default function App() {
           <div className="flex flex-col sm:flex-row items-center gap-4 mt-10">
             {/* Primary Button with Rainbow Effect */}
             <div className="rainbow relative z-0 bg-white/15 overflow-hidden p-0.5 flex items-center justify-center rounded-full hover:scale-[1.03] transition duration-300 active:scale-95 shadow-lg shadow-[#06B6D4]/30">
-              <button className="px-8 text-sm py-3 text-white rounded-full font-medium bg-gray-900/80 backdrop-blur-sm tracking-wide">
+              <button className="px-8 text-sm py-3 text-white rounded-full font-medium bg-gray-900/80 backdrop-blur-sm tracking-wide cursor-pointer">
                 Get started
               </button>
             </div>
 
             {/* Secondary Button with Gradient Border (BackgroundCircles removed from here) */}
             <div className="button-bg1 rounded-full p-0.5 hover:scale-[1.03] transition duration-300 active:scale-95 shadow-lg shadow-pink-500/30">
-              <button className="px-8 text-sm py-2.5 text-white rounded-full font-medium bg-gray-800 tracking-wide">
+              <button className="px-8 text-sm py-2.5 text-white rounded-full font-medium bg-gray-800 tracking-wide cursor-pointer">
                 Explore Community
               </button>
             </div>
