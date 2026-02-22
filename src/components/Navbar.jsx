@@ -77,7 +77,7 @@ export default function Navbar() {
           href="#"
           className="text-3xl md:text-5xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
         >
-          Dev <span>Cluster</span>
+          Dev<span>Cluster</span>
         </a>
 
         {/* Desktop Navigation */}

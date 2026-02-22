@@ -6,6 +6,10 @@ import { useEffect, useRef } from "react";
 import neeraj from "../assets/meet_our_team/neeraj.png";
 import tanuja from "../assets/meet_our_team/tanuja.jpg";
 import nitesh from "../assets/meet_our_team/nitesh.jpg";
+import nikhil from "../assets/meet_our_team/nikhil.png";
+import sanvi from "../assets/meet_our_team/sanvi.png";
+import shubham from "../assets/meet_our_team/shubham.png";
+import milit from "../assets/meet_our_team/milit.png";
 
 // --- Team Data (from your original code) ---
 const teamMembers = [
@@ -44,35 +48,35 @@ const teamMembers = [
   },
   {
     name: "Sanvi",
-    role: "AI Developer",
+    role: "Web Developer",
     description:
-      "Ensuring platform security and data protection through advanced cybersecurity practices and protocols.",
-    avatar: "/Prashant.jpeg",
-    github: "https://github.com/lifeaboutsily",
-    linkedin: "https://www.linkedin.com/in/prashant-kumar-singh-b612442b5",
-    email: "curiousprashantks@gmail.com",
+      "Specialized in MongoDB, Express.js, React, and Node.js for building dynamic web applications.",
+    avatar: sanvi,
+    github: "",
+    linkedin: "",
+    email: "",
     gradient: "from-green-500 to-purple-500",
   },
   {
     name: "Milit",
-    role: "Lead Full Stack Developer",
+    role: "Web Developer",
     description:
-      "Leading the technical vision and architecting scalable full-stack solutions with expertise in modern frameworks.",
-    avatar: "/Priyanshu.jpeg",
-    github: "https://github.com/priyans11",
-    linkedin: "https://linkedin.com/in/priyans11",
-    email: "priyanshu82711@gmail.com",
+      "Creating responsive and interactive web experiences with modern technologies and best practices.",
+    avatar: milit,
+    github: "",
+    linkedin: "",
+    email: "",
     gradient: "from-purple-500 to-blue-500",
   },
   {
     name: "Shubham",
-    role: "MERN Stack Developer",
+    role: "Web & AI Developer",
     description:
-      "Specialized in MongoDB, Express.js, React, and Node.js for building dynamic web applications.",
-    avatar: "/Neeraj.jpeg",
-    github: "https://github.com/coder174-ops",
-    linkedin: "https://www.linkedin.com/in/neeraj-kumar-verma-9813b6261",
-    email: "neerajjnv2015@gmail.com",
+      "Leading the technical vision and architecting scalable full-stack solutions with expertise in modern frameworks.",
+    avatar: shubham,
+    github: "",
+    linkedin: "",
+    email: "",
     gradient: "from-blue-500 to-cyan-500",
   },
   {
@@ -80,10 +84,10 @@ const teamMembers = [
     role: "Web Developer",
     description:
       "Creating responsive and interactive web experiences with modern technologies and best practices.",
-    avatar: "/Anuj.jpeg",
-    github: "https://github.com/anujarya1435",
-    linkedin: "https://www.linkedin.com/in/nitesh-kumar-1b9b0a362",
-    email: "nraj21284@gmail.com",
+    avatar: nikhil,
+    github: "https://github.com/Nikhil1m4",
+    linkedin: "",
+    email: "mathuriyanikhil@786@gmail.com",
     gradient: "from-cyan-500 to-green-500",
   },
 ];
