@@ -1,150 +1,492 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 
-// Unified Navigation Links
+// ── Nav Items ─────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
   { name: "Home", href: "#Home" },
   { name: "About", href: "#About" },
-  { name: "Community", href: "#Community" },
+  { name: "Community", href: null, hasDropdown: true },
   { name: "Meet the Team", href: "#Team" },
 ];
 
-// --- Helper Icon Components ---
+const COMMUNITY_LINKS = [
+  {
+    name: "Web Development",
+    href: "/webdev",
+    icon: "🌐",
+    sub: "React, Node.js, Full Stack",
+    color: "#06B6D4",
+  },
+  {
+    name: "AI / ML",
+    href: "/mlai",
+    icon: "🤖",
+    sub: "Python, TensorFlow, LLMs",
+    color: "#a855f7",
+  },
+  {
+    name: "Blockchain",
+    href: "/blockchain",
+    icon: "⛓️",
+    sub: "Solidity, Web3, DeFi",
+    color: "#f59e0b",
+  },
+  {
+    name: "DSA",
+    href: "/dsa",
+    icon: "🧠",
+    sub: "Algorithms, Competitive Prog.",
+    color: "#22c55e",
+  },
+];
 
-export const MenuIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="26"
-    height="26"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="text-white"
-  >
-    <path d="M4 5h16" />
-    <path d="M4 12h16" />
-    <path d="M4 19h16" />
-  </svg>
-);
+// ── Inline styles for dropdown animation ─────────────────────────────────────
+const dropdownStyles = `
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1);    }
+  }
+  .dropdown-enter { animation: dropIn 0.22s cubic-bezier(0.23,1,0.32,1) forwards; }
 
-export const XIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="text-black"
-  >
-    <path d="M18 6 6 18" />
-    <path d="m6 6 12 12" />
-  </svg>
-);
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-100%); }
+    to   { opacity: 1; transform: translateX(0);     }
+  }
+  .mobile-menu-enter { animation: slideIn 0.3s cubic-bezier(0.23,1,0.32,1) forwards; }
+`;
 
-// --- Main Navbar Component ---
-
+// ── Navbar ────────────────────────────────────────────────────────────────────
 export default function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileComOpen, setMobileComOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const hoverTimeout = useRef(null);
+  const location = useLocation();
 
-  const handleNavLinkClick = () => {
-    setIsMobileMenuOpen(false);
+  // Inject animation styles once
+  useEffect(() => {
+    const el = document.createElement("style");
+    el.textContent = dropdownStyles;
+    document.head.appendChild(el);
+    return () => document.head.removeChild(el);
+  }, []);
+
+  // Scroll listener
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 18);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+    setMobileComOpen(false);
+  }, [location]);
+
+  // Dropdown hover handlers with small delay to prevent flicker
+  const handleMouseEnter = () => {
+    clearTimeout(hoverTimeout.current);
+    setDropdownOpen(true);
+  };
+  const handleMouseLeave = () => {
+    hoverTimeout.current = setTimeout(() => setDropdownOpen(false), 120);
   };
 
-  const NavLink = ({ item }) => (
-    <a href={item.href} className="relative overflow-hidden h-6 group">
-      <span className="block group-hover:-translate-y-full transition-transform duration-300">
-        {item.name}
-      </span>
-      <span className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-cyan-400">
-        {item.name}
-      </span>
-    </a>
-  );
+  const isActive = (href) => href && location.pathname === href;
 
   return (
     <>
-      {/* ✅ FIXED STICKY NAVBAR */}
-      <nav className="fixed top-0 left-0 z-[999] bg-black/90 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-32 backdrop-blur-md">
-        
-        {/* Logo */}
-        <a
-          href="#"
-          className="text-3xl md:text-5xl lg:text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
-        >
-          Dev<span>Cluster</span>
-        </a>
-
-        {/* Desktop Navigation */}
-        <div className="text-white hidden lg:flex items-center gap-6 ml-7 border border-slate-700 px-9 py-4 rounded-full text-lg">
-          {NAV_ITEMS.map((item) => (
-            <NavLink key={item.name} item={item} />
-          ))}
-        </div>
-
-        {/* Desktop Buttons */}
-        <div className="hidden md:flex space-x-3">
-          <button className="bg-white hover:shadow-[0px_0px_30px_14px] shadow-[0px_0px_30px_7px] hover:shadow-white/50 shadow-white/50 text-black px-4 py-2 rounded-full text-sm font-medium transition duration-300 cursor-pointer">
-            Get started
-          </button>
-          <button className="hover:bg-slate-300/20 transition px-6 py-2 border border-slate-400 rounded-full text-white text-sm cursor-pointer">
-            Login
-          </button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden active:scale-90 transition"
-          onClick={() => setIsMobileMenuOpen(true)}
-          aria-label="Open menu"
-        >
-          <MenuIcon />
-        </button>
-
-        {/* Mobile Menu */}
-        <div
-          className={`fixed inset-0 z-[1000] bg-black/95 backdrop-blur-md flex flex-col items-center text-xl gap-10 md:hidden transition-transform duration-300 pt-24 ${
-            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              onClick={handleNavLinkClick}
-              className="text-white hover:text-cyan-400 transition duration-200 text-2xl font-medium"
+      <nav
+        className="fixed top-0 left-0 right-0 z-[999] transition-all duration-400"
+        style={{
+          background: scrolled ? "rgba(5,5,12,0.92)" : "rgba(5,5,12,0.60)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: scrolled
+            ? "1px solid rgba(255,255,255,0.07)"
+            : "1px solid rgba(255,255,255,0.04)",
+          boxShadow: scrolled ? "0 4px 32px rgba(0,0,0,0.45)" : "none",
+          height: scrolled ? "60px" : "68px",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-5 md:px-8 h-full flex items-center justify-between">
+          {/* ── Logo ── */}
+          <Link
+            to="/"
+            className="flex items-center gap-2 group shrink-0"
+            style={{ textDecoration: "none" }}
+          >
+            <div
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-black transition-all duration-300 group-hover:scale-110"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #06B6D4)",
+                boxShadow: "0 0 16px rgba(99,102,241,0.35)",
+              }}
             >
-              {item.name}
-            </a>
-          ))}
+              DC
+            </div>
+            <span
+              className="text-xl font-black tracking-tight transition-all duration-300 group-hover:opacity-90"
+              style={{
+                background: "linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              DevCluster
+            </span>
+          </Link>
 
-          <div className="flex flex-col space-y-4 mt-6">
-            <button className="bg-white text-black px-8 py-3 rounded-full text-lg font-medium shadow-md">
-              Get started
-            </button>
-            <button className="border border-slate-400 px-8 py-3 rounded-full text-white text-lg">
-              Login
-            </button>
+          {/* ── Desktop Nav ── */}
+          <div className="hidden lg:flex items-center gap-1">
+            {NAV_ITEMS.map((item) =>
+              item.hasDropdown ? (
+                // Community with dropdown
+                <div
+                  key={item.name}
+                  ref={dropdownRef}
+                  className="relative"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <button
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-md font-semibold tracking-wide transition-all duration-200"
+                    style={{
+                      color: dropdownOpen ? "#fff" : "rgba(255,255,255,0.65)",
+                      background: dropdownOpen
+                        ? "rgba(255,255,255,0.06)"
+                        : "transparent",
+                    }}
+                  >
+                    {item.name}
+                    <svg
+                      className="w-3.5 h-3.5 transition-transform duration-250"
+                      style={{
+                        transform: dropdownOpen
+                          ? "rotate(180deg)"
+                          : "rotate(0deg)",
+                      }}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  {/* Dropdown panel */}
+                  {dropdownOpen && (
+                    <div
+                      className="dropdown-enter absolute top-full left-1/2 mt-2 w-64 rounded-2xl overflow-hidden"
+                      style={{
+                        transform: "translateX(-50%)",
+                        background: "rgba(10,10,20,0.96)",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        boxShadow:
+                          "0 16px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(99,102,241,0.1)",
+                        backdropFilter: "blur(24px)",
+                      }}
+                    >
+                      {/* Top glow line */}
+                      <div
+                        className="h-[1px] w-full"
+                        style={{
+                          background:
+                            "linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent)",
+                        }}
+                      />
+                      <div className="p-2">
+                        {COMMUNITY_LINKS.map((link) => (
+                          <Link
+                            key={link.name}
+                            to={link.href}
+                            onClick={() => setDropdownOpen(false)}
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-xl group/item transition-all duration-200 hover:bg-white/5"
+                            style={{ textDecoration: "none" }}
+                          >
+                            <span className="text-lg w-7 text-center shrink-0">
+                              {link.icon}
+                            </span>
+                            <div className="transition-transform duration-200 group-hover/item:translate-x-0.5">
+                              <div
+                                className="text-sm font-semibold transition-colors duration-200"
+                                style={{
+                                  color: isActive(link.href)
+                                    ? link.color
+                                    : "rgba(255,255,255,0.85)",
+                                }}
+                              >
+                                {link.name}
+                              </div>
+                              <div className="text-[11px] text-gray-500 mt-0.5 group-hover/item:text-gray-400 transition-colors duration-200">
+                                {link.sub}
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                // Regular nav link
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="relative px-4 py-2 rounded-lg text-md font-semibold tracking-wide transition-all duration-200 group"
+                  style={{
+                    color: "rgba(255,255,255,0.80)",
+                    textDecoration: "none",
+                  }}
+                >
+                  <span className="relative z-10 group-hover:text-white transition-colors duration-200">
+                    {item.name}
+                  </span>
+                  <span
+                    className="absolute bottom-1 left-4 right-4 h-px rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 origin-left"
+                    style={{
+                      background: "linear-gradient(90deg, #6366f1, #06B6D4)",
+                    }}
+                  />
+                </a>
+              ),
+            )}
           </div>
 
-          {/* Close Button */}
+          {/* ── Desktop Buttons ── */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Link
+              to="/login"
+              className="px-4 py-2 text-sm font-semibold rounded-lg border transition-all duration-200 hover:bg-white/6"
+              style={{
+                color: "rgba(255,255,255,0.65)",
+                borderColor: "rgba(255,255,255,0.12)",
+                textDecoration: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#fff";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "rgba(255,255,255,0.65)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
+              }}
+            >
+              Login
+            </Link>
+            <Link
+              to="/get-started"
+              className="px-5 py-2 text-sm font-semibold rounded-lg text-white transition-all duration-250 hover:scale-[1.04] active:scale-95"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #06B6D4)",
+                boxShadow: "0 0 20px rgba(99,102,241,0.30)",
+                textDecoration: "none",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.boxShadow =
+                  "0 0 32px rgba(99,102,241,0.55)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.boxShadow =
+                  "0 0 20px rgba(99,102,241,0.30)")
+              }
+            >
+              Get Started
+            </Link>
+          </div>
+
+          {/* ── Mobile Hamburger ── */}
           <button
-            className="absolute top-6 right-6 bg-slate-100 hover:bg-slate-200 transition rounded-full p-2"
-            onClick={() => setIsMobileMenuOpen(false)}
-            aria-label="Close menu"
+            className="lg:hidden flex flex-col justify-center items-center w-9 h-9 gap-[5px] rounded-lg transition-all duration-200 hover:bg-white/8"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
           >
-            <XIcon />
+            <span className="w-5 h-[1.5px] bg-white/80 rounded-full" />
+            <span className="w-5 h-[1.5px] bg-white/80 rounded-full" />
+            <span className="w-3.5 h-[1.5px] bg-white/80 rounded-full self-start ml-[3px]" />
           </button>
         </div>
       </nav>
 
-      {/* ✅ Spacer so content does not hide under navbar */}
-      <div className="h-[70px]" />
+      {/* Spacer */}
+      <div
+        style={{
+          height: scrolled ? "60px" : "68px",
+          transition: "height 0.4s",
+        }}
+      />
+
+      {/* ── Mobile Menu Overlay ── */}
+      {mobileOpen && (
+        <div
+          className="mobile-menu-enter fixed inset-0 z-[1000] flex flex-col"
+          style={{
+            background: "rgba(4,4,12,0.97)",
+            backdropFilter: "blur(24px)",
+          }}
+        >
+          {/* Top bar */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/6">
+            <Link
+              to="/"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-2"
+              style={{ textDecoration: "none" }}
+            >
+              <div
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-black"
+                style={{
+                  background: "linear-gradient(135deg, #6366f1, #06B6D4)",
+                }}
+              >
+                DC
+              </div>
+              <span
+                className="text-xl font-black tracking-tight"
+                style={{
+                  background:
+                    "linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                DevCluster
+              </span>
+            </Link>
+
+            {/* Close */}
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/8"
+              aria-label="Close menu"
+            >
+              <svg
+                className="w-5 h-5 text-white/60"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Links */}
+          <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+            {NAV_ITEMS.map((item) =>
+              item.hasDropdown ? (
+                <div key={item.name}>
+                  <button
+                    onClick={() => setMobileComOpen((p) => !p)}
+                    className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl text-base font-semibold transition-colors duration-200 hover:bg-white/5"
+                    style={{
+                      color: mobileComOpen ? "#fff" : "rgba(255,255,255,0.7)",
+                    }}
+                  >
+                    {item.name}
+                    <svg
+                      className="w-4 h-4 transition-transform duration-250"
+                      style={{
+                        transform: mobileComOpen
+                          ? "rotate(180deg)"
+                          : "rotate(0deg)",
+                      }}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  {mobileComOpen && (
+                    <div className="mt-1 ml-4 space-y-1 border-l border-white/8 pl-4">
+                      {COMMUNITY_LINKS.map((link) => (
+                        <Link
+                          key={link.name}
+                          to={link.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 hover:bg-white/5"
+                          style={{ textDecoration: "none" }}
+                        >
+                          <span className="text-base">{link.icon}</span>
+                          <div>
+                            <div className="text-sm font-semibold text-white/85">
+                              {link.name}
+                            </div>
+                            <div className="text-[11px] text-gray-500">
+                              {link.sub}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center px-4 py-3.5 rounded-xl text-base font-semibold transition-colors duration-200 hover:bg-white/5 hover:text-white"
+                  style={{
+                    color: "rgba(255,255,255,0.80)",
+                    textDecoration: "none",
+                  }}
+                >
+                  {item.name}
+                </a>
+              ),
+            )}
+          </div>
+
+          {/* Bottom buttons */}
+          <div className="px-4 pb-8 space-y-3 border-t border-white/6 pt-5">
+            <Link
+              to="/get-started"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center w-full py-3 rounded-xl text-sm font-bold text-white transition-all duration-200 active:scale-95"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #06B6D4)",
+                boxShadow: "0 0 24px rgba(99,102,241,0.30)",
+                textDecoration: "none",
+              }}
+            >
+              Get Started
+            </Link>
+            <Link
+              to="/login"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center w-full py-3 rounded-xl text-sm font-medium border transition-all duration-200 hover:bg-white/5"
+              style={{
+                color: "rgba(255,255,255,0.65)",
+                borderColor: "rgba(255,255,255,0.12)",
+                textDecoration: "none",
+              }}
+            >
+              Login
+            </Link>
+          </div>
+        </div>
+      )}
     </>
   );
 }
