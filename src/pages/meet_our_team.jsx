@@ -295,10 +295,7 @@ const Makers = () => {
             ))}
           </div>
         </div>
-
-
         <hr className="border-n-1/10 my-1" />
-
         /* --- Team Stats Section --- */
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20 text-white">
           {[
@@ -326,37 +323,49 @@ const Makers = () => {
             </div>
           ))}
         </div>
-
-
         <hr className="border-n-1/10 my-16" />
-
-
+      
         {/* Call to Action */}
-        <div className="text-center">
-          <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-cyan-500/10 border border-n-1/10 rounded-2xl p-8 md:p-12 backdrop-blur-sm text-white shadow-3xl">
-            <h3 className="text-2xl md:text-4xl font-bold text-n-1 mb-4 text-white">
-              Want to Join Our Team? 🚀
-            </h3>
-            <p className="text-base md:text-lg text-n-3 leading-relaxed mb-8 text-white">
-              We're always looking for passionate individuals who share our
-              vision of transforming education through technology.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                href="https://chat.whatsapp.com/F5bTMKq9g007eBwbqGPvUL?mode=hqrt2"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-full hover:from-purple-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-xl shadow-purple-500/25 uppercase tracking-wider text-sm"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+        <div className="text-center flex justify-center">
+          <div className="relative max-w-4xl w-full rounded-2xl p-[2px] border border-white">
+            {/* Glow Border */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 blur-md opacity-60"></div>
+
+            {/* Main Card */}
+            <div className="relative rounded-2xl bg-black/70 backdrop-blur-xl p-8 md:p-12 text-white border border-white/10">
+              <h3 className="text-2xl md:text-4xl font-bold mb-4">
+                Want to Join Our Team? 🚀
+              </h3>
+
+              <p className="text-base md:text-lg text-white/80 mb-8">
+                We're always looking for passionate individuals who share our
+                vision of transforming education through technology.
+              </p>
+
+              <div className="flex justify-center">
+                <a
+                  href="https://chat.whatsapp.com/F5bTMKq9g007eBwbqGPvUL?mode=hqrt2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-8 py-3 
+                     bg-gradient-to-r from-purple-500 to-blue-500 
+                     text-white font-semibold rounded-full 
+                     uppercase tracking-wider text-sm 
+                     shadow-lg hover:from-purple-600 hover:to-blue-600 
+                     transition-all duration-200 
+                     active:scale-95 active:shadow-md"
                 >
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.787" />
-                </svg>
-                Join Us on WhatsApp
-              </a>
+                  {/* WhatsApp Icon with To & Fro Motion */}
+                  <svg
+                    className="w-5 h-5 animate-iconMove"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M20.52 3.48A11.86 11.86 0 0012.04 0C5.4 0 .02 5.38 0 12.02c0 2.12.55 4.2 1.6 6.04L0 24l6.12-1.6a11.94 11.94 0 005.92 1.52h.01c6.63 0 12.01-5.38 12.02-12.02a11.92 11.92 0 00-3.55-8.42zm-8.48 18.3h-.01a9.96 9.96 0 01-5.08-1.4l-.36-.21-3.63.95.97-3.54-.23-.36a9.96 9.96 0 1117.34-5.33c0 5.5-4.47 9.97-9.97 9.97z" />
+                  </svg>
+                  Join Us on WhatsApp
+                </a>
+              </div>
             </div>
           </div>
         </div>
