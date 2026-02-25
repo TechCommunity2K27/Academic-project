@@ -144,7 +144,7 @@ export default function Navbar() {
       </nav>
 
       {/* ✅ Spacer so content does not hide under navbar */}
-      <div className="h-[90px]" />
+      <div className="h-[70px]" />
     </>
   );
 }
