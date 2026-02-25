@@ -2,7 +2,7 @@ import React from "react";
 import Section from "./Section";
 import { BackgroundCircles } from "./design/Hero";
 import { Users, Github, Linkedin, Mail } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef ,useState} from "react";
 import neeraj from "../assets/meet_our_team/neeraj.png";
 import tanuja from "../assets/meet_our_team/tanuja.jpg";
 import nitesh from "../assets/meet_our_team/nitesh.jpg";
@@ -13,7 +13,7 @@ import milit from "../assets/meet_our_team/milit.png";
 
 // --- Team Data (from your original code) ---
 const teamMembers = [
-    {
+  {
     name: "Neeraj",
     role: "Lead Full Stack Developer",
     description:
@@ -92,6 +92,58 @@ const teamMembers = [
   },
 ];
 
+
+/* --- Animated Counter Component --- */
+const Counter = ({ target, suffix = "" }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    let start = 0;
+    const duration = 1500;
+    const increment = target / (duration / 16);
+
+    const counter = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(counter);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+
+    return () => clearInterval(counter);
+  }, [visible, target]);
+
+  return (
+    <span ref={ref}>
+      {count}
+      {suffix}
+    </span>
+  );
+};
+
+
 const Makers = () => {
   const scrollRef = useRef(null);
   const intervalRef = useRef(null);
@@ -111,10 +163,7 @@ const Makers = () => {
 
         // If the scroll has reached the end of the first set of members (half of the total scroll width)
         // instantly jump back to the start (scrollLeft = 0) to create a seamless loop.
-        if (
-          scrollRef.current.scrollLeft >=
-          scrollRef.current.scrollWidth / 2
-        ) {
+        if (scrollRef.current.scrollLeft >= scrollRef.current.scrollWidth / 2) {
           scrollRef.current.scrollLeft = 0;
         }
       }
@@ -153,15 +202,16 @@ const Makers = () => {
 
           <h1 className="text-4xl md:text-6xl lg:text-5xl font-bold mb-6 leading-tight">
             <span className="text-4xl md:text-5xl lg:text-5xl text-center font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">
-              Meet the  Makers
+              Meet the Makers
             </span>
           </h1>
 
           <p className="text-base md:text-xl text-n-3 max-w-3xl mx-auto leading-relaxed text-white">
-          Meet the talented minds behind Dev Cluster — a team of developers, designers, and innovators working together to empower students through technology.
+            Meet the talented minds behind Dev Cluster — a team of developers,
+            designers, and innovators working together to empower students
+            through technology.
           </p>
         </div>
-        
         {/* Horizontal Scrolling Cards Container */}
         <div className="relative w-full overflow-hidden mb-16">
           <div
@@ -171,10 +221,10 @@ const Makers = () => {
             className="flex flex-nowrap gap-6 cursor-pointer overflow-x-scroll scrollbar-hide"
             style={{
               // Hide scrollbar for different browsers
-              msOverflowStyle: 'none', // IE and Edge
-              scrollbarWidth: 'none', // Firefox
+              msOverflowStyle: "none", // IE and Edge
+              scrollbarWidth: "none", // Firefox
               // Custom CSS to hide the Webkit scrollbar (Chrome, Safari, Opera)
-              '::-webkit-scrollbar': { display: 'none' },
+              "::-webkit-scrollbar": { display: "none" },
             }}
             onMouseEnter={stopAutoScroll}
             onMouseLeave={startAutoScroll}
@@ -204,13 +254,13 @@ const Makers = () => {
                   {/* Content */}
                   <div className="text-center text-white">
                     <h3 className="text-2xl font-bold mb-1 text-n-1">
-                      {member.name.replace(' (Clone)', '')}
+                      {member.name.replace(" (Clone)", "")}
                     </h3>
                     <p className="text-purple-400 font-medium text-sm mb-4 uppercase tracking-wider">
                       {member.role}
                     </p>
                     {/* Ensure description is properly aligned and styled */}
-                    <p className="text-sm leading-relaxed mb-6 text-n-3 text-white min-h-[4rem]"> 
+                    <p className="text-sm leading-relaxed mb-6 text-n-3 text-white min-h-[4rem]">
                       {member.description}
                     </p>
                   </div>
@@ -234,7 +284,7 @@ const Makers = () => {
                   >
                     <Linkedin className="w-5 h-5" />
                   </a>
-                  <a 
+                  <a
                     href={`mailto:${member.email}`}
                     className="hover:text-cyan-400 transition-colors duration-200"
                   >
@@ -245,32 +295,41 @@ const Makers = () => {
             ))}
           </div>
         </div>
-        
-        <hr className="border-n-1/10 my-16" />
 
-        {/* Team Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 text-white">
+
+        <hr className="border-n-1/10 my-1" />
+
+        /* --- Team Stats Section --- */
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20 text-white">
           {[
-            { number: "7", label: "Team Members" },
-            { number: "50+", label: "Projects Delivered" },
-            { number: "2+", label: "Years Experience" },
-            { number: "100%", label: "Dedication" },
+            { number: 7, label: "Team Members" },
+            { number: 50, label: "Projects Delivered", suffix: "+" },
+            { number: 2, label: "Years Experience", suffix: "+" },
+            { number: 100, label: "Dedication", suffix: "%" },
           ].map((stat, index) => (
             <div
               key={index}
-              className="text-center p-6 bg-n-7/20 border border-n-1/10 rounded-xl backdrop-blur-sm transition-all duration-300 hover:bg-n-7/40 hover:shadow-2xl hover:shadow-purple-500/10"
+              className="relative group text-center p-8 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(168,85,247,0.3)]"
             >
-              <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-3">
-                {stat.number}
-              </div>
-              <div className="text-n-3 text-sm font-semibold uppercase tracking-widest">
-                {stat.label}
+              {/* Glow Background */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl blur-xl" />
+
+              <div className="relative z-10">
+                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-4 tracking-tight">
+                  <Counter target={stat.number} suffix={stat.suffix || ""} />
+                </div>
+
+                <div className="text-gray-400 text-xs md:text-sm font-semibold uppercase tracking-[0.2em]">
+                  {stat.label}
+                </div>
               </div>
             </div>
           ))}
         </div>
 
+
         <hr className="border-n-1/10 my-16" />
+
 
         {/* Call to Action */}
         <div className="text-center">
@@ -298,29 +357,9 @@ const Makers = () => {
                 </svg>
                 Join Us on WhatsApp
               </a>
-              {/* <button
-                onClick={() => window.history.back()}
-                className="inline-flex items-center gap-3 px-8 py-3 bg-n-7/50 border border-n-1/20 text-n-1 font-semibold rounded-full hover:bg-n-7/70 hover:border-n-1/30 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm uppercase tracking-wider text-sm"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-                Go Back
-              </button> */}
             </div>
           </div>
         </div>
-
         {/* <BackgroundCircles /> */}
       </div>
     </Section>
