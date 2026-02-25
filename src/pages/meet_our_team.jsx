@@ -473,7 +473,7 @@ const Makers = () => {
                   key={index}
                   member={member}
                   isHovered={hoveredIndex === index}
-                  isAnyHovered={hoveredIndex !== null}
+                  // isAnyHovered={hoveredIndex !== null
                   isGlowing={glowIndex === originalIndex}
                   onHoverEnter={() => setHoveredIndex(index)}
                   onHoverLeave={() => setHoveredIndex(null)}
