@@ -27,3 +27,18 @@ html,body{
   }
 }
 
+@keyframes iconMove {
+
+  0%,
+  100% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+.animate-iconMove {
+  animation: iconMove 2.5s ease-in-out infinite;
+}
