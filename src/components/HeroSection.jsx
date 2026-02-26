@@ -372,7 +372,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="bg-black min-h-screen flex flex-col items-center">
+    <div className="bg-black flex flex-col items-center">
       <section className="relative w-full flex flex-col items-center text-white text-sm pb-20 px-4 sm:px-6 lg:px-12 overflow-hidden">
         {/* Background glows */}
         <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-blue-500 rounded-full blur-3xl opacity-20 animate-pulse" />
@@ -423,7 +423,7 @@ export default function Hero() {
         <BackgroundCircles />
 
         {/* ── Main content ── */}
-        <div className="pt-8 sm:pt-24 w-full max-w-7xl relative z-10">
+        <div className="pt-8 sm:pt-24 w-full max-w-6xl relative z-10">
           {/* Two-column grid — badge + content left, panel right */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
             {/* ── LEFT ── */}
@@ -456,9 +456,9 @@ export default function Hero() {
                 <span style={{ color: "#06B6D4" }} className="font-semibold">
                   Web Dev
                 </span>
-                , <span className="text-purple-400 font-semibold">AI/ML</span>,{" "}
-                <span className="text-amber-400 font-semibold">Blockchain</span>{" "}
-                & <span className="text-green-400 font-semibold">DSA</span>.
+                , <span style={{ color: "#06B6D4" }} className=" font-semibold">AI/ML</span>,{" "}
+                <span style={{ color: "#06B6D4" }} className=" font-semibold">Blockchain</span>{" "}
+                & <span style={{ color: "#06B6D4" }} className=" font-semibold">DSA</span>.
                 Learn together. Ship together.
               </p>
 

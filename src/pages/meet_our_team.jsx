@@ -242,7 +242,7 @@ const TeamCard = ({
                 boxShadow: `0 0 32px ${member.accentFrom}45`,
               }}
             >
-              <div className="w-28 h-28 rounded-full overflow-hidden bg-gray-900">
+              <div className="w-35 h-35 rounded-full overflow-hidden bg-gray-900">
                 <img
                   src={member.avatar}
                   alt={member.name}
@@ -257,8 +257,8 @@ const TeamCard = ({
                 {member.name}
               </h3>
               <p
-                className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: member.accentFrom }}
+                className="text-sm font-semibold uppercase tracking-widest "
+                style={{ color: member.accentFrom,fontFamily: "Inter"}}
               >
                 {member.role}
               </p>
